@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect } from 'react'
-import ProjectContext from '../../context/projects/proyectos/ProjectContext';
-import TaskContext from '../../context/projects/tareas/TaskContext';
+import ProjectContext from '../../context/proyectos/ProjectContext';
+import TaskContext from '../../context/tareas/TaskContext';
 
 const FormTask = () => {
 
@@ -40,8 +40,7 @@ const FormTask = () => {
         if(currentTask === null){
             addTask({
                 name: task.name,
-                projectId: currentProject[0].id,
-                completed: false
+                project: currentProject[0]._id
             })
         } else {
             updateTask(task)

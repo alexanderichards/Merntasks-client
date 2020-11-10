@@ -1,17 +1,17 @@
-import { ACTUALIZAR_TAREA, AGREGAR_TAREA, ELIMINAR_TAREA, ESTADO_TAREA, TAREAS_PROYECTO, TAREA_ACTUAL, VALIDAR_TAREA } from '../../../types'
+import { ACTUALIZAR_TAREA, AGREGAR_TAREA, ELIMINAR_TAREA, TAREAS_PROYECTO, TAREA_ACTUAL, VALIDAR_TAREA } from '../../types'
 
 const TaskReducer = (state, action) => {
     switch(action.type){
         case TAREAS_PROYECTO:
             return{
                 ...state,
-                projectTasks: state.tasks.filter(task => task.projectId === action.payload)
+                projectTasks: action.payload
             }
         case AGREGAR_TAREA: 
             return{
                 ...state,
                 // projectTasks: [...state.projectTasks, action.payload],
-                tasks: [action.payload, ...state.tasks],
+                projectTasks: [action.payload, ...state.projectTasks],
                 taskError: false
             }
         case VALIDAR_TAREA:
@@ -22,13 +22,13 @@ const TaskReducer = (state, action) => {
         case ELIMINAR_TAREA:
             return{
                 ...state,
-                tasks: state.tasks.filter(task => task.id !== action.payload)
+                projectTasks: state.projectTasks.filter(task => task._id !== action.payload)
             }
-        case ESTADO_TAREA: 
-            return{
-                ...state,
-                tasks: state.tasks.map(task => task.id === action.payload.id ? {...task, completed: !task.completed} : task),
-            }
+        // case ESTADO_TAREA: 
+        //     return{
+        //         ...state,
+        //         projectTasks: state.projectTasks.map(task => task._id === action.payload._id ? {...task, completed: !task.completed} : task),
+        //     }
         case TAREA_ACTUAL:
             return{
                 ...state,
@@ -37,7 +37,7 @@ const TaskReducer = (state, action) => {
         case ACTUALIZAR_TAREA:
             return{
                 ...state,
-                tasks: state.tasks.map(task => task.id === action.payload.id ? {...task, name: action.payload.name} : task)
+                projectTasks: state.projectTasks.map(task => task._id === action.payload._id ? {...task, name: action.payload.name, status: action.payload.status} : task)
             }
         default: {
             return state

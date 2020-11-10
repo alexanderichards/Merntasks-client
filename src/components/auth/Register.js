@@ -1,11 +1,29 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { Link } from 'react-router-dom';
-import AlertContext from '../../context/projects/alerts/AlertContext';
+import AlertContext from '../../context/alerts/AlertContext';
+import AuthContext from '../../context/auth/AuthContext';
 
-const Register = () => {
+const Register = (props) => {
 
     const alertContext = useContext(AlertContext)
     const {alert, showAlert} = alertContext
+
+    const authContext = useContext(AuthContext)
+    const { registerUser , message, isAuth} = authContext
+
+    // en caso de que el usuario se haya autentica o registrado o sea un registo duplicado
+    useEffect(() => {
+
+        if(isAuth){
+            props.history.push('/projects')
+        }
+
+        if(message){
+            showAlert(message.msg, message.category)
+        }
+
+        // eslint-disable-next-line
+    }, [message, isAuth, props.history])
 
     const [credentials, setcredentials] = useState({
         email: "",
@@ -39,6 +57,12 @@ const Register = () => {
             showAlert('Both passwords must match', "alerta-error")
             return
         }
+
+        registerUser({
+            name: credentials.name,
+            email: credentials.email,
+            password: credentials.password
+        })
 
         /// 2 password iguales
 

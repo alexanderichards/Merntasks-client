@@ -1,12 +1,12 @@
 import React, { Fragment, useState, useContext} from 'react'
-import ProjectContext from '../../context/projects/proyectos/ProjectContext';
+import ProjectContext from '../../context/proyectos/ProjectContext';
 // import TaskContext from '../../context/projects/tareas/TaskContext';
 
 const NewProject = () => {
     
     //get the form state
     const projectContext = useContext(ProjectContext)
-    const { formulario, mostrarFormulario, agregarProyecto, mostrarError, errorFormulario, selectProject} = projectContext;
+    const { formulario, mostrarFormulario, agregarProyecto, mostrarError, errorFormulario} = projectContext;
     // const taskContext = useContext(TaskContext)
     // const { getProjectTasks} = taskContext
 
@@ -21,14 +21,14 @@ const NewProject = () => {
         })
     }
 
-    const onsubmit = e => {
+    const onsubmit = async e => {
         e.preventDefault()
         if(project.name.trim() === ""){
             mostrarError()
             return;
         }
         agregarProyecto(project)
-        selectProject(project);
+        // selectProject(project);
         setProject({
             name: ''
         });

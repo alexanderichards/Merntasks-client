@@ -1,6 +1,6 @@
 import React, { Fragment, useContext, useEffect} from 'react'
-import ProjectContext from '../../context/projects/proyectos/ProjectContext';
-import TaskContext from '../../context/projects/tareas/TaskContext';
+import ProjectContext from '../../context/proyectos/ProjectContext';
+import TaskContext from '../../context/tareas/TaskContext';
 import Task from './Task';
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 
@@ -13,7 +13,7 @@ const TaskList = () => {
 
     useEffect(() => {
         if(currentProject === null) return
-        getProjectTasks(currentProject[0].id)
+        getProjectTasks(currentProject[0]._id)
         // eslint-disable-next-line
     }, [currentProject])
 
@@ -29,7 +29,7 @@ const TaskList = () => {
                                 ? (<li className="tarea">No hay tareas</li>)
                                 : <TransitionGroup>
                                     {projectTasks.map(task =>
-                                        <CSSTransition key={task.id} timeout={200} classNames="tarea">
+                                        <CSSTransition key={task._id} timeout={200} classNames="tarea">
                                             <Task task={task}></Task>
                                         </CSSTransition>)}
                                 </TransitionGroup>
